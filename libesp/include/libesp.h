@@ -1,8 +1,10 @@
 #ifndef LIBESP_H
 #define LIBESP_H
 
+#define NULL 0x0;
 typedef unsigned int uint32_t;
-typedef enum {false = 0, true = 1} bool; 
+typedef enum {false = 0, true = 1} bool;
+_Static_assert(sizeof(uint32_t) == 4, "uint32_t is not 4 bytes");
 
 //////////////////////////////////////////////////
 // Module/Peripheral Addresses -- TRM Table 3-4 //
@@ -14,7 +16,7 @@ enum {
     ESP32C3_SPI0 = 0x60003000,
     ESP32C3_GPIO = 0x60004000,
     ESP32C3_TIMER = 0x60007000,
-    ESP32C3_LOW_POWER_MGMT = 0x60009000,
+    ESP32C3_LOW_POWER_MGMT = 0x60008000,
     ESP32C3_IO_MUX = 0x60009000,
     ESP32C3_UART1 = 0x60010000,
     ESP32C3_I2C = 0x60013000,
@@ -53,9 +55,13 @@ enum {
 void put32_asm(uint32_t addr, uint32_t val);
 uint32_t get32_asm(uint32_t addr);
 
+// Spin (not timing accurate) -- start-asm.S
+void spin(int numiters);
+
+// #define INLINE_PUTGET
 #ifdef INLINE_PUTGET
-#define put32(addr, val) asm volatile ("sw %0, %1, #0", )
-#define get32(addr) asm volatile ()
+#define put32(addr, val) asm volatile ("sw %0, 0(%1)", "=r" (val), "r" (addr))
+#define get32(addr) ({uint32_t val; asm volatile ("lw %0, 0(%1)" : "=r" (val) : "r" (addr)); val;})
 #else // !INLINE_PUTGET
 #define put32(addr, val) put32_asm((uint32_t)(addr), (uint32_t)(val))
 #define get32(addr) get32_asm((uint32_t)(addr))
