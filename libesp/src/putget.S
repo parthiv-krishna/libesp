@@ -3,7 +3,7 @@
 // void put32_asm(uint32_t addr, uint32_t val);
 .globl put32_asm
 put32_asm:
-    sw a0, 0(a1)
+    sw a1, 0(a0)
     ret
 
 
