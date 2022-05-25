@@ -18,8 +18,8 @@ enum {
 
 void watchdog_disable(void) {
     // Watchdog
-    put32(WATCHDOG_WKEY, WATCHDOG_WKEY_MAGICNUM);  // Disable write protection
-    put32(WATCHDOG_CONFIG0, 0);  // Disable watchdog
+    put32(WATCHDOG_WKEY, WATCHDOG_WKEY_MAGICNUM); // Disable write protection
+    put32(WATCHDOG_CONFIG0, 0);                   // Disable watchdog
     put32(WATCHDOG_CNTL_DIG_ISO, 0);
 
     // Superwatchdog
@@ -28,7 +28,6 @@ void watchdog_disable(void) {
     swd_config |= (1 << 31);
     put32(SUPERWATCHDOG_CONFIG, swd_config);
     put32(SUPERWATCHDOG_CPU_STALL, 0);
-
 
     // (TRM section 11 register 11.26)
     uint32_t timer0_regclk = get32(TIMER0_REGCLK);
