@@ -59,13 +59,18 @@ enum {
 void put32_asm(uint32_t addr, uint32_t val);
 uint32_t get32_asm(uint32_t addr);
 
-// Spin (not timing accurate)
+/**
+ * @brief nop for the given number of cycles
+ * 
+ * @param numiters the number of cycles
+ */
 static inline void spin(unsigned numiters) {
     while (numiters--) {
         asm volatile("nop");
     }
 }
 
+// uncomment to use the asm version, but it's slower
 #define INLINE_PUTGET
 #ifdef INLINE_PUTGET
 #define put32(addr, val) *(volatile uint32_t *)(addr) = (val)
