@@ -7,9 +7,6 @@
 
 void uart_init(int tx_pin, int rx_pin, int baud);
 
-uint32_t uart_tx_fifo_len(void);
-uint32_t uart_rx_fifo_len(void);
-
 bool uart_read_nonblocking(uint8_t *c);
 bool uart_read_blocking(uint8_t *c);
 

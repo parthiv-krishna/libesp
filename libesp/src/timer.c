@@ -17,8 +17,8 @@ uint64_t timer_get_us(void) {
 }
 
 void timer_delay_us(uint64_t us) {
-    uint64_t until = timer_get_us() + us; // Handler counter wrap
-    while (timer_get_us() < until) {
+    uint64_t start = timer_get_us(); // Handler counter wrap
+    while (timer_get_us() - us < start) {
         spin(1);
     }
 }

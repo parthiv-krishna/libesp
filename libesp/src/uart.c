@@ -58,11 +58,11 @@ void uart_init(int tx_pin, int rx_pin, int baud) {
     put32(GPIO_FUNC_UART_SEL, (1 << 6) | rx_pin);
 }
 
-uint32_t uart_tx_fifo_len() {
+static inline uint32_t uart_tx_fifo_len() {
     return (get32(UART_STATUS) >> 16) & 127;
 }
 
-uint32_t uart_rx_fifo_len() {
+static inline uint32_t uart_rx_fifo_len() {
     return get32(UART_STATUS) & 127;
 }
 
@@ -75,7 +75,7 @@ bool uart_read_nonblocking(uint8_t *c) {
 }
 
 bool uart_read_blocking(uint8_t *c) {
-    while (!uart_read(c)) { spin(1); }
+    while (!uart_read_nonblocking(c)) { spin(1); }
     return true;
 }
 

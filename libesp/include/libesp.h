@@ -59,13 +59,17 @@ enum {
 void put32_asm(uint32_t addr, uint32_t val);
 uint32_t get32_asm(uint32_t addr);
 
-// Spin (not timing accurate) -- start-asm.S
-void spin(int numiters);
+// Spin (not timing accurate)
+static inline void spin(unsigned numiters) {
+    while (numiters--) {
+        asm volatile("nop");
+    }
+}
 
-// #define INLINE_PUTGET
+#define INLINE_PUTGET
 #ifdef INLINE_PUTGET
-#define put32(addr, val) asm volatile ("sw %0, 0(%1)", "=r" (val), "r" (addr))
-#define get32(addr) ({uint32_t val; asm volatile ("lw %0, 0(%1)" : "=r" (val) : "r" (addr)); val;})
+#define put32(addr, val) *(volatile uint32_t *)(addr) = (val)
+#define get32(addr) *(volatile uint32_t *)(addr)
 #else // !INLINE_PUTGET
 #define put32(addr, val) put32_asm((uint32_t)(addr), (uint32_t)(val))
 #define get32(addr) get32_asm((uint32_t)(addr))
