@@ -16,7 +16,8 @@ OBJS := $(SRC:.c=.o)
 OBJS := $(OBJS:.S=.o)
 OBJS := $(foreach o, $(OBJS), $(BUILD_DIR)/$(notdir $o))
 
-CFLAGS = $(INCLUDE) -g -Wall -Werror -Wno-unused-function
+OPT_LEVEL = -O3
+CFLAGS = $(OPT_LEVEL) $(INCLUDE) -g -Wall -Werror -Wno-unused-function
 ASFLAGS = -march=rv32im
 
 all: libesp.a
@@ -37,4 +38,4 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.S builddir
 clean:
 	rm -rf $(BUILD_DIR) libesp.a
 
-.PHONY: all clean
+.PHONY: all clean monitor
