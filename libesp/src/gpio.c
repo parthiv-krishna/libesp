@@ -21,7 +21,7 @@ void gpio_set_output(int pin) {
 void gpio_write(int pin, bool value) {
     uint32_t out = get32(GPIO_OUT);
     out &= ~(1 << pin);    // clear existing
-    out |= (value << pin); // set new
+    out |= (~value << pin); // set new
     put32(GPIO_OUT, out);
 }
 
