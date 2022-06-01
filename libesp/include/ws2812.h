@@ -2,8 +2,6 @@
 #define WS2812_H
 
 #include "libesp.h"
-#include "gpio.h"
-#include "timer.h"
 
 typedef struct {
     uint8_t r;
@@ -12,6 +10,6 @@ typedef struct {
 } rgb_t;
 
 
-void ws2812_show(int pin, const rgb_t pixel);
+void ws2812_display_one(int pin, const rgb_t pixel);
 
 #endif // WS2812_H

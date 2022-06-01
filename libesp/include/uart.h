@@ -3,8 +3,6 @@
 
 #include "libesp.h"
 
-#include "uart.h"
-
 void uart_init(int tx_pin, int rx_pin, int baud);
 
 bool uart_read_nonblocking(uint8_t *c);

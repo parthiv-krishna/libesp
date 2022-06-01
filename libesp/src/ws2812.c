@@ -1,6 +1,7 @@
 #include "ws2812.h"
 
-#include "uart.h"
+#include "gpio.h"
+#include "timer.h"
 
 static inline void write_byte(int pin, uint8_t byte) {
      // gives right timing, found with logic analyzer
