@@ -53,6 +53,7 @@ SECTIONS {
 
 /* Some useful functions provided in ROM */
 PROVIDE(memset = 0x40000354);
+PROVIDE(memcpy = 0x40000358);
 PROVIDE(__udivdi3 = 0x400008ac); /* division */
 PROVIDE(__umoddi3 = 0x400008bc); /* mod */
 PROVIDE(ets_update_cpu_frequency = 0x40000588);
