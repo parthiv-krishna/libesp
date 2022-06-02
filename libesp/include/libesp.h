@@ -5,7 +5,7 @@
 typedef unsigned char uint8_t;
 typedef unsigned int uint32_t;
 typedef unsigned long long uint64_t;
-typedef enum {false = 0, true = 1} bool;
+typedef enum { false = 0, true = 1 } bool;
 _Static_assert(sizeof(uint8_t) == 1, "uint8_t is not 1 byte");
 _Static_assert(sizeof(uint32_t) == 4, "uint32_t is not 4 bytes");
 _Static_assert(sizeof(uint64_t) == 8, "uint64_t is not 8 bytes");
@@ -52,7 +52,6 @@ enum {
     ESP32C3_WORLD = 0x600D0000
 };
 
-
 //////////////////////////////////////
 // PUT/GET32 -- defined in putget.S //
 //////////////////////////////////////
@@ -61,7 +60,7 @@ uint32_t get32_asm(uint32_t addr);
 
 /**
  * @brief nop for the given number of cycles
- * 
+ *
  * @param numiters the number of cycles
  */
 static inline void spin(unsigned numiters) {

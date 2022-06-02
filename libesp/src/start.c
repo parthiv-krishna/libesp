@@ -9,7 +9,7 @@ enum {
 
 static inline void zero_bss(void) {
     extern char _sbss, _ebss;
-    for (char *p = &_sbss; p < &_ebss; p++)  {
+    for (char *p = &_sbss; p < &_ebss; p++) {
         *p = '\0';
     }
 }

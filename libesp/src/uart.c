@@ -14,29 +14,28 @@ enum {
 enum {
     GPIO_OUT_EN = ESP32C3_GPIO + 0x20,
     GPIO_OUT_FUNC_BASE = ESP32C3_GPIO + 0x554,
-    GPIO_FUNC_UART_SEL = ESP32C3_GPIO + 0x154 + 4*6
+    GPIO_FUNC_UART_SEL = ESP32C3_GPIO + 0x154 + 4 * 6
 };
 
-enum {
-    IO_MUX_BASE = ESP32C3_IO_MUX + 0x4
-};
+enum { IO_MUX_BASE = ESP32C3_IO_MUX + 0x4 };
 
-void uart_init(int tx_pin, int rx_pin, int baud) {    
+void uart_init(int tx_pin, int rx_pin, int baud) {
     // Setup clock divider from baud TRM register 24.7
     uint32_t div = ((uint32_t)4000 * 1000000 / (uint32_t)baud);
-    uint32_t clkdiv = div / 100;                // integer
-    clkdiv |= (16 * (div % 100) / 100) << 20;   // fractional
+    uint32_t clkdiv = div / 100;              // integer
+    clkdiv |= (16 * (div % 100) / 100) << 20; // fractional
 
     // disable UART while setting up: TRM register 24.9
     uint32_t conf0 = get32(UART_CONF0);
     conf0 &= ~(1 << 28); // disable UART_MEM_CLK_EN
-    conf0 |= (1 << 26); // enable UART_ERR_WR_MASK
+    conf0 |= (1 << 26);  // enable UART_ERR_WR_MASK
     put32(UART_CONF0, conf0);
 
     // setup UART interrupts: TRM register 24.10
     put32(UART_CONF1, 0x1); // RXFULL 1, TXFULL 0
 
-    // setup UART clock to drive TX, RX with XTAL clock (bits 25, 24, 22, 21, 10)
+    // setup UART clock to drive TX, RX with XTAL clock (bits 25, 24, 22, 21,
+    // 10)
     put32(UART_CLKCONF, 0b110111 << 20);
 
     // Set TX pin
@@ -63,7 +62,7 @@ static inline uint32_t uart_tx_fifo_len() {
 }
 
 static inline uint32_t uart_rx_fifo_len() {
-    return get32(UART_STATUS) & 127;
+    return (get32(UART_STATUS) >> 0) & 127;
 }
 
 bool uart_read_nonblocking(uint8_t *c) {
@@ -75,7 +74,9 @@ bool uart_read_nonblocking(uint8_t *c) {
 }
 
 bool uart_read_blocking(uint8_t *c) {
-    while (!uart_read_nonblocking(c)) { spin(1); }
+    while (!uart_read_nonblocking(c)) {
+        spin(1);
+    }
     return true;
 }
 
@@ -88,7 +89,8 @@ bool uart_write_nonblocking(uint8_t c) {
 }
 
 bool uart_write_blocking(uint8_t c) {
-    while (!uart_write_nonblocking(c)) { spin(1); }
+    while (!uart_write_nonblocking(c)) {
+        spin(1);
+    }
     return true;
 }
-

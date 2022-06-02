@@ -5,7 +5,7 @@
 
 /**
  * @brief Disables the watchdog timers
- * 
+ *
  */
 void watchdog_disable(void);
 

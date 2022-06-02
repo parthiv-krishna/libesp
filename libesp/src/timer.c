@@ -7,8 +7,11 @@ enum {
 };
 
 uint64_t timer_get_ticks(void) {
-    put32(TIMER_UNIT0_OP, 1 << 30); // TRM register 10.5: tell timer to write time to regs
-    while ((get32(TIMER_UNIT0_OP) >> 29) & 1) { spin(1); } // wait for data ready
+    // TRM register 10.5: tell timer to write time to regs
+    put32(TIMER_UNIT0_OP, 1 << 30);
+    while ((get32(TIMER_UNIT0_OP) >> 29) & 1) {
+        spin(1);
+    } // wait for data ready
     return ((uint64_t)get32(TIMER_UNT0_HI) << 32) | get32(TIMER_UNT0_LO);
 }
 
@@ -23,6 +26,4 @@ void timer_delay_us(uint64_t us) {
     }
 }
 
-void timer_delay_ms(uint64_t ms) {
-    timer_delay_us(ms * 1000); 
-}
+void timer_delay_ms(uint64_t ms) { timer_delay_us(ms * 1000); }

@@ -23,7 +23,7 @@ void watchdog_disable(void) {
     put32(WATCHDOG_CNTL_DIG_ISO, 0);
 
     // Superwatchdog
-    put32(SUPERWATCHDOG_WKEY, SUPERWATCHDOG_WKEY_MAGICNUM); // Disable write protection
+    put32(SUPERWATCHDOG_WKEY, SUPERWATCHDOG_WKEY_MAGICNUM); // Write protec
     uint32_t swd_config = get32(SUPERWATCHDOG_CONFIG); // Disable superwatchdog
     swd_config |= (1 << 31);
     put32(SUPERWATCHDOG_CONFIG, swd_config);

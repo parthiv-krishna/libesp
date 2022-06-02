@@ -20,7 +20,7 @@ void gpio_set_output(unsigned pin) {
 
 void gpio_write(unsigned pin, bool value) {
     uint32_t out = get32(GPIO_OUT);
-    out &= ~(1 << pin);    // clear existing
+    out &= ~(1 << pin);     // clear existing
     out |= (~value << pin); // set new
     put32(GPIO_OUT, out);
 }
