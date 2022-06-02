@@ -1,0 +1,58 @@
+/* Define memory architecture */
+MEMORY {
+  iram   (rwx)  : ORIGIN = 0x40380400, LENGTH = 32k 
+  dram   (rw)   : ORIGIN = 0x3fc80000 + LENGTH(iram), LENGTH = 128k
+}
+PROVIDE(__iram_start__ = ORIGIN(iram));
+PROVIDE(__iram_end__ = ORIGIN(iram) + LENGTH(iram));
+PROVIDE(__dram_start__ = ORIGIN(dram));
+PROVIDE(__dram_end__ = ORIGIN(dram) + LENGTH(dram));
+
+/* Code entry point: reset function (in start-asm.S) */
+ENTRY(reset)
+
+/* All the sections (from riscv default linker... not sure how much is needed) */
+SECTIONS {
+  .text : { 
+    __code_start__ = .;
+    *(.text) 
+    *(.text*) 
+    __code_end__ = .;
+  } > iram
+
+  .data : {
+    . = ALIGN(16);
+    __data_start__ = .;
+    *(.data)
+    *(.data*)
+    *(.sdata)
+    *(.sdata*)
+    *(.srodata)
+    *(.srodata*)
+    *(.rodata)
+    *(.rodata*)
+    *(.gnu.linkonce.r.*)
+    *(.rodata1)
+    *(.riscv.*)
+    . = ALIGN(16);
+    __data_end__ = .;
+  } > dram
+
+  .bss (NOLOAD): {
+    . = ALIGN(16);
+    __bss_start__ = .;
+    *(.bss)
+    *(.bss*)
+    *(.sbss)
+    *(.sbss*)
+    *(COMMON)
+    . = ALIGN(16);
+    __bss_end__ = .;
+  } > dram
+}
+
+/* Some useful functions provided in ROM */
+PROVIDE(memset = 0x40000354);
+PROVIDE(__udivdi3 = 0x400008ac); /* division */
+PROVIDE(__umoddi3 = 0x400008bc); /* mod */
+PROVIDE(ets_update_cpu_frequency = 0x40000588);

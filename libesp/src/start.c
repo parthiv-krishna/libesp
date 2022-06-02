@@ -8,8 +8,8 @@ enum {
 };
 
 static inline void zero_bss(void) {
-    extern char _sbss, _ebss;
-    for (char *p = &_sbss; p < &_ebss; p++) {
+    extern char __bss_start__, __bss_end__;
+    for (char *p = &__bss_start__; p < &__bss_end__; p++) {
         *p = '\0';
     }
 }
