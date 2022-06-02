@@ -51,10 +51,12 @@ void log_putd(int32_t v) {
     while (v < div) {
         div /= 10; // figure out how many digits needed
     }
-    while (div > 0) {
+    while (div > 1) {
         int32_t digit = v / div;
         v -= digit * div;
         div /= 10;
         log_putc(to_d(digit));
     }
+    log_putc(to_d(v));
 }
+
