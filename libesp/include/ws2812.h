@@ -2,18 +2,11 @@
 #define WS2812_H
 
 #include "libesp.h"
+#include "rgb.h"
 
 // increase to use more than 256 LEDs
 // eventually implement malloc and then won't need
 #define MAX_NLEDS 256
-
-typedef struct {
-    uint8_t r;
-    uint8_t g;
-    uint8_t b;
-} rgb_t;
-
-#define RGB_MK(r, g, b) ((rgb_t){(uint8_t)(r), (uint8_t)(g), (uint8_t)(b)})
 
 typedef struct {
     unsigned pin;
