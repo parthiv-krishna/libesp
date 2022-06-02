@@ -10,7 +10,8 @@
 int main(void) {
     watchdog_disable();
 
-    ws2812_strip_t ws2812_strip = ws2812_strip_init(PIN, NUM_LEDS);
+    ws2812_strip_t strip;
+    ws2812_strip_init(&strip, PIN, NUM_LEDS);
 
     rgb_t colors[360];
     for (int h = 0; h < 360; h++) {
@@ -20,9 +21,9 @@ int main(void) {
     while (1) {
         for (int h = 0; h < 360; h++) {
             for (int i = 0; i < NUM_LEDS; i++) {
-                ws2812_strip.pixels[i] = colors[(h + i) % 360];
+                ws2812_strip_set(&strip, i, colors[(h + i) % 360]);
             }
-            ws2812_strip_update(&ws2812_strip);
+            ws2812_strip_update(&strip);
         }
     }
 }

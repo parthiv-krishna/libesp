@@ -31,13 +31,12 @@ void ws2812_display_one(unsigned pin, rgb_t pixel) {
     set_signal(pin);
 }
 
-ws2812_strip_t ws2812_strip_init(unsigned pin, int num_leds) {
+void ws2812_strip_init(ws2812_strip_t *strip, unsigned pin, int num_leds) {
     gpio_set_output(pin);
+    strip->pin = pin;
+    strip->num_leds = num_leds;
+    ws2812_strip_set_all(strip, RGB_BLACK);
 
-    return (ws2812_strip_t){
-        .pin = pin,
-        .num_leds = num_leds,
-    };
 }
 
 void ws2812_strip_update(ws2812_strip_t *strip) {
@@ -45,6 +44,10 @@ void ws2812_strip_update(ws2812_strip_t *strip) {
         write_pixel(strip->pin, strip->pixels[i]);
     }
     set_signal(strip->pin);
+}
+
+void ws2812_strip_set(ws2812_strip_t *strip, int idx, rgb_t pixel) {
+    strip->pixels[idx] = pixel;
 }
 
 void ws2812_strip_set_all(ws2812_strip_t *strip, rgb_t pixel) {

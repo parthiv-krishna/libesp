@@ -27,11 +27,11 @@ void ws2812_display_one(unsigned pin, rgb_t pixel);
 /**
  * @brief Initializes an WS2812 strip
  *
+ * @param strip The WS2812 strip handle to initialize
  * @param pin The pin which the WS2812 strip is connected to
  * @param num_leds The number of LEDs in the strip
- * @return ws2812_strip_t WS2812 strip handle
  */
-ws2812_strip_t ws2812_strip_init(unsigned pin, int num_leds);
+void ws2812_strip_init(ws2812_strip_t *strip, unsigned pin, int num_leds);
 
 /**
  * @brief Updates the colors on the physical strip from the data in memory
@@ -41,11 +41,20 @@ ws2812_strip_t ws2812_strip_init(unsigned pin, int num_leds);
 void ws2812_strip_update(ws2812_strip_t *strip);
 
 /**
+ * @brief Sets the color of an LED in the strip
+ *
+ * @param strip The WS2812 strip handle
+ * @param idx The index of the LED to set
+ * @param pixel The color to display
+ */
+void ws2812_strip_set(ws2812_strip_t *strip, int idx, rgb_t pixel);
+
+/**
  * @brief Sets the color of all LEDs in the strip to the same color
  *
  * @param strip The WS2812 strip handle
  * @param pixel The color to display
  */
-void ws2812_strip_set_all(ws2812_strip_t *strip, rgb_t pixel);
+void ws2812_strip_set_all(ws2812_strip_t *strip, rgb_t color);
 
 #endif // WS2812_H
